@@ -1,3 +1,6 @@
-import { Figtree } from 'next/font/google';
+import localFont from 'next/font/local'
 
-export const figtree = Figtree({ subsets: ['latin'] });
+
+export const retroFont = localFont({
+  src: '../../public/fonts/dogicapixel.ttf',
+});

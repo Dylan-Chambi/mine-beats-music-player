@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { figtree } from "./fonts";
+import Sidebar from "@/components/Sidebar";
+import { retroFont } from "./fonts";
+
 import "./globals.css";
 
 
@@ -15,8 +17,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${figtree.className} antialiased`}>
-        {children}
+      <body className={`${retroFont.className} antialiased`}>
+        <Sidebar>
+          {children}
+        </Sidebar>
       </body>
     </html>
   );
