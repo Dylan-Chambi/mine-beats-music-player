@@ -1,9 +1,14 @@
+"use client";
+
 import { forwardRef } from "react";
+import { useFormStatus } from "react-dom";
 import { twMerge } from "tailwind-merge";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ className, children, disabled, type = "button", ...props }, ref) => {
+  const { pending } = useFormStatus();
+
   return (
     <button
       type={type}
@@ -24,7 +29,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ className, children
       `,
         className
       )}
-      disabled={disabled}
+      disabled={disabled || pending}
       ref={ref}
       {...props}
     >

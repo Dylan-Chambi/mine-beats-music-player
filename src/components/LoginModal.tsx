@@ -1,6 +1,7 @@
 "use client";
 
-import { signInWithGoogle } from "@/app/actions";
+import { signInWithProvider } from "@/app/actions";
+import { useState } from "react";
 import { FaGithub } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { ImCross } from "react-icons/im";
@@ -11,6 +12,15 @@ interface LoginModalProps {
 }
 
 export default function LoginModal({ setShowModal }: LoginModalProps) {
+  const [provider, setProvider] = useState<"google" | "github" | "email" | null>(null);
+  const [pending, setPending] = useState<boolean>(false);
+
+  async function handleSignIn(formData: FormData) {
+    setPending(true);
+    const res = await signInWithProvider(provider as any, formData);
+    setPending(false);
+    return res;
+  }
 
   return (
     <div
@@ -36,19 +46,24 @@ export default function LoginModal({ setShowModal }: LoginModalProps) {
               <span className="sr-only">Close modal</span>
             </button>
           </div>
-          <div className="flex flex-col p-4 md:p-5 space-y-4 items-center">
+          <form className="flex flex-col p-4 md:p-5 space-y-4 items-center" action={handleSignIn}>
             <h2 className="text-xl font-semibold text-onBackground mb-5">
               Log In
             </h2>
             <div className="flex flex-col w-80 space-y-4">
               <button
-                onClick={() => signInWithGoogle()}
+                type="submit"
+                disabled={pending}
+                onClick={() => setProvider("google")}
                 className="flex items-center justify-center w-full py-2.5 px-5 rounded-lg text-xs font-medium text-neutral-900 bg-neutral-100 hover:bg-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-200"
               >
                 <FcGoogle className="w-6 h-6 me-2" />
                 Continue with Google
               </button>
               <button
+                type="submit"
+                disabled={pending}
+                onClick={() => setProvider("github")}
                 className="flex items-center justify-center w-full py-2.5 px-5 rounded-lg text-xs font-medium text-white bg-black hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-black"
               >
                 <FaGithub className="w-6 h-6 me-2" />
@@ -70,11 +85,13 @@ export default function LoginModal({ setShowModal }: LoginModalProps) {
               </div>
               <div className="flex flex-col w-full space-y-2 pb-5">
                 <input
+                  name="email"
                   type="text"
                   placeholder="Email"
                   className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-xs text-white-900 focus:outline-none focus:ring-2 focus:ring-neutral-200"
                 />
                 <input
+                  name="password"
                   type="password"
                   placeholder="Password"
                   className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-xs text-white-900 focus:outline-none focus:ring-2 focus:ring-neutral-200"
@@ -82,12 +99,15 @@ export default function LoginModal({ setShowModal }: LoginModalProps) {
               </div>
 
               <button
+                type="submit"
+                disabled={pending}
+                onClick={() => setProvider("email")}
                 className="flex items-center justify-center w-full py-2.5 px-5 rounded-lg text-xs font-medium text-white bg-primary hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-primary"
               > 
                 Log In
               </button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
