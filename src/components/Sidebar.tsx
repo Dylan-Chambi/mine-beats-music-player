@@ -55,7 +55,14 @@ export default function Sidebar({ children }: SidebarProps) {
       <div className="hidden md:flex flex-col gap-y-2 bg-backgroundSidebar h-full w-[300px] p-2">
           <div className="flex items-center justify-center h-20 w-full">
             <div className="flex items-center justify-center w-20 h-20">
-              <Image src="/images/mine-beats-logo.png" alt="logo" width={80} height={80} />
+              <Image 
+                src="/images/mine-beats-logo.png" 
+                alt="logo"
+                width={100}
+                height={100}
+                className="h-[60px] w-auto"
+                priority
+              />
             </div>
             <h1 className="text-xl font-bold text-primary mr-5">Mine Beats</h1>
           </div>
