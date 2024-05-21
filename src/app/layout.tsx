@@ -3,6 +3,7 @@ import Sidebar from "@/components/Sidebar";
 import { retroFont } from "./fonts";
 
 import "./globals.css";
+import { UserProvider } from "./providers/UserProvider";
 
 
 export const metadata: Metadata = {
@@ -18,9 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${retroFont.className} antialiased`}>
-        <Sidebar>
-          {children}
-        </Sidebar>
+        <UserProvider>
+          <Sidebar>
+            {children}
+          </Sidebar>
+        </UserProvider>
       </body>
     </html>
   );

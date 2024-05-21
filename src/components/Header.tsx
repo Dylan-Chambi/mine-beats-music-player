@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import ControlButtons from "./ControlButtons";
 import AuthButtons from "./AuthButtons";
 import UserSection from "./UserSection";
+import { useUserServer } from "@/hooks/useUserServer";
 
 interface HeaderProps {
   children: React.ReactNode;
@@ -11,8 +12,7 @@ interface HeaderProps {
 }
 
 export default async function Header({ children, className }: HeaderProps) {
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { user } = await useUserServer();
 
   return (
     <header
