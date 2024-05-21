@@ -35,6 +35,6 @@ export async function handleLogout() {
   if (error) {
     console.log(error);
   }
-  revalidatePath('/');
+  revalidatePath('/', 'layout');
 };
 
