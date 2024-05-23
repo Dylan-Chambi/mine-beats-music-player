@@ -1,15 +1,13 @@
-"use client";
-
-import { AuthUser } from "@supabase/supabase-js";
 import Button from "./Button";
-import Image from "next/image";
 import { createClient } from "@/utils/supabase/client";
 
 interface LogOutButtonProps {
-  user: AuthUser | null;
+  children?: React.ReactNode;
+  className?: string;
+  [key: string]: any;
 }
 
-export default function LogOutButton({ user }: LogOutButtonProps) {
+export default function LogOutButton({ children, className, ...props }: LogOutButtonProps) {
   const supabase = createClient();
 
   const handleLogout = () => {
@@ -20,18 +18,10 @@ export default function LogOutButton({ user }: LogOutButtonProps) {
     <Button
       type="submit"
       onClick={handleLogout}
-      className="inline-flex items-center bg-transparent text-primary font-medium text-xs border border-primary hover:text-secondary hover:border-secondary hover:font-semibold transition duration-300 ease-in-out"
+      className={className}
+      {...props}
     >
-      {user?.user_metadata.avatar_url ? (
-        <Image
-          src={user?.user_metadata.avatar_url}
-          alt="avatar"
-          width={30}
-          height={30}
-          className="rounded-full"
-        />
-      ) : null}
-      Log out
+      {children}
     </Button>
   );
 }

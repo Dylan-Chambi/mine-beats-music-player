@@ -28,7 +28,7 @@ export async function signInWithProvider(
   }
 };
 
-export async function handleLogout() {
+export async function signOut() {
   const supabase = createClient();
   
   const { error } = await supabase.auth.signOut();

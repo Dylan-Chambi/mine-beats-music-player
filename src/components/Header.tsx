@@ -1,6 +1,5 @@
 import { twMerge } from "tailwind-merge";
 import Image from "next/image";
-import { createClient } from "@/utils/supabase/server";
 import ControlButtons from "./ControlButtons";
 import AuthButtons from "./AuthButtons";
 import UserSection from "./UserSection";
@@ -42,7 +41,7 @@ export default async function Header({ children, className }: HeaderProps) {
           <h1 className="text-sm font-bold text-primary">Mine Beats</h1>
         </div>
         <div className="flex justify-between items-center md:gap-x-4 gap-x-1">
-          {user ? <UserSection /> : <AuthButtons />}
+          {user ? <UserSection user={user} /> : <AuthButtons />}
         </div>
       </div>
       <>{children}</>
