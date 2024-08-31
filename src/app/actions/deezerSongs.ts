@@ -9,3 +9,16 @@ export const getSongs = async (): Promise<DeezerTracks> => {
   const data = await fetch(`${DEZZER_API}/chart/0/tracks&limit=50&index=${random}`);
   return await data.json();
 };
+
+export const getSongsById = async (id: string): Promise<DeezerTracks> => {
+  const data = await fetch(`${DEZZER_API}/track/${id}`);
+  return await data.json();
+};
+
+export const getSongByTitle = async (title?: string): Promise<DeezerTracks> => {
+  if (!title) {
+    return getSongs();
+  }
+  const data = await fetch(`${DEZZER_API}/search?q=${title}`);
+  return await data.json();
+};
