@@ -3,8 +3,9 @@ import Sidebar from "@/components/Sidebar";
 import { retroFont } from "./fonts";
 
 import "./globals.css";
-import { UserProvider } from "./providers/UserProvider";
-
+import { UserProvider } from "@/app/providers/UserProvider";
+import { AuthModalProvider } from "@/app/providers/AuthModalProvider";
+import LoginModal from "@/components/LoginModal";
 
 export const metadata: Metadata = {
   title: "Mine Beats",
@@ -20,9 +21,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${retroFont.className} antialiased`}>
         <UserProvider>
-          <Sidebar>
-            {children}
-          </Sidebar>
+          <AuthModalProvider>
+            <LoginModal />
+            <Sidebar>{children}</Sidebar>
+          </AuthModalProvider>
         </UserProvider>
       </body>
     </html>
