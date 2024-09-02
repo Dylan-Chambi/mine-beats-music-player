@@ -3,6 +3,7 @@ import { getSongByTitle } from "../actions/deezerSongs";
 import Header from "@/components/Header";
 import { SearchContent } from "./components/SearchContent";
 
+export const revalidate = 3600;
 interface SearchProps {
   searchParams: {
     title: string;

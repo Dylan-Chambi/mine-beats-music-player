@@ -1,6 +1,6 @@
 "use server";
 
-import { DeezerTracks } from "@/types/types";
+import { DeezerTracks, Track } from "@/types/types";
 
 const DEZZER_API = "https://api.deezer.com";
 
@@ -10,7 +10,7 @@ export const getSongs = async (): Promise<DeezerTracks> => {
   return await data.json();
 };
 
-export const getSongsById = async (id: string): Promise<DeezerTracks> => {
+export const getSongById = async (id: string): Promise<Track> => {
   const data = await fetch(`${DEZZER_API}/track/${id}`);
   return await data.json();
 };

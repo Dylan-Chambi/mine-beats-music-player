@@ -7,6 +7,8 @@ import { useAuthModal } from "@/app/providers/AuthModalProvider";
 import toast from "react-hot-toast";
 import { RxCrossCircled } from "react-icons/rx";
 import { MdHeartBroken } from "react-icons/md";
+import { revalidateFavorites } from "@/app/actions/favorites";
+import { usePathname } from "next/navigation";
 
 interface LikeButtonProps {
   songId: number;
@@ -14,6 +16,7 @@ interface LikeButtonProps {
 
 export const LikeButton = ({ songId }: LikeButtonProps) => {
   const authModal = useAuthModal();
+  const pathname = usePathname();
   const { supabaseClient, user } = useUserClient();
   const [isLiked, setIsLiked] = useState(false);
 
@@ -196,6 +199,9 @@ export const LikeButton = ({ songId }: LikeButtonProps) => {
           </div>
         ));
       }
+    }
+    if (pathname === "/favorites") {
+      revalidateFavorites();
     }
   };
 
