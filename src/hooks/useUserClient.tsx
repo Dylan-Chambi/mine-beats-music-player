@@ -7,6 +7,7 @@ type useUserReturn = {
   accessToken: string | null;
   user: AuthUser | null;
   isLoading: boolean;
+  supabaseClient: ReturnType<typeof createClient>;
   // userDetail: UserDetails | null;
   // subscription: Subscription | null;
 };
@@ -18,13 +19,12 @@ export interface Props {
 const UserContext = createContext<useUserReturn | undefined>(undefined);
 
 export function MyUserContextProvider(props: Props) {
-
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<AuthUser | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
+  const supabaseClient = createClient();
   // const [userDetail, setUserDetail] = useState<UserDetails | null>(null);
   // const [subscription, setSubscription] = useState<Subscription | null>(null);
-
 
   useEffect(() => {
     const supabase = createClient();
@@ -42,44 +42,42 @@ export function MyUserContextProvider(props: Props) {
     });
 
     const fetchData = async () => {
-        setIsLoading(true);
+      setIsLoading(true);
 
-        Promise.allSettled([
-          getUser(),
-          getAccessToken(),
-          // getUserDetails(),
-          // getSubscription(),
-        ]).then((results) => {
-          const userPromise = results[0];
-          const accessTokenPromise = results[1];
-          // const userDetailsPromise = results[2];
-          // const subscriptionPromise = results[3];
+      Promise.allSettled([
+        getUser(),
+        getAccessToken(),
+        // getUserDetails(),
+        // getSubscription(),
+      ]).then((results) => {
+        const userPromise = results[0];
+        const accessTokenPromise = results[1];
+        // const userDetailsPromise = results[2];
+        // const subscriptionPromise = results[3];
 
-          if (userPromise.status === "fulfilled") {
-            setUser(userPromise.value.data.user);
-          }
+        if (userPromise.status === "fulfilled") {
+          setUser(userPromise.value.data.user);
+        }
 
-          if (accessTokenPromise.status === "fulfilled") {
-            setAccessToken(
-              accessTokenPromise.value.data.session?.access_token || null
-            );
-          }
+        if (accessTokenPromise.status === "fulfilled") {
+          setAccessToken(accessTokenPromise.value.data.session?.access_token || null);
+        }
 
-          // if (userDetailsPromise.status === "fulfilled") {
-          //   setUserDetail(
-          //     userDetailsPromise.value.data as unknown as UserDetails
-          //   );
-          // }
+        // if (userDetailsPromise.status === "fulfilled") {
+        //   setUserDetail(
+        //     userDetailsPromise.value.data as unknown as UserDetails
+        //   );
+        // }
 
-          // if (subscriptionPromise.status === "fulfilled") {
-          //   setSubscription(
-          //     subscriptionPromise.value.data as unknown as Subscription
-          //   );
-          // }
+        // if (subscriptionPromise.status === "fulfilled") {
+        //   setSubscription(
+        //     subscriptionPromise.value.data as unknown as Subscription
+        //   );
+        // }
 
-          setIsLoading(false);
-        });
-      };
+        setIsLoading(false);
+      });
+    };
 
     fetchData();
   }, []);
@@ -88,6 +86,7 @@ export function MyUserContextProvider(props: Props) {
     accessToken,
     user,
     isLoading,
+    supabaseClient,
     // userDetail,
     // subscription,
   };

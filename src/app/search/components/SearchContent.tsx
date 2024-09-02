@@ -1,5 +1,6 @@
 "use client";
 
+import { LikeButton } from "@/components/LikeButton";
 import { MediaItem } from "@/components/MediaItem";
 import { DeezerTracks, Track } from "@/types/types";
 
@@ -26,8 +27,8 @@ export const SearchContent = ({ deezerTracks }: SearchContentProps) => {
         <div key={track.id} className="flex items-center gap-x-4 w-full">
           <div className="flex-1">
             <MediaItem onClick={() => {}} data={track} />
-            {/* Add like Button Here */}
           </div>
+          <LikeButton songId={track.id} />
         </div>
       ))}
     </div>

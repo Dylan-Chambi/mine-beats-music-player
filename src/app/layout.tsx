@@ -6,6 +6,7 @@ import "./globals.css";
 import { UserProvider } from "@/app/providers/UserProvider";
 import { AuthModalProvider } from "@/app/providers/AuthModalProvider";
 import LoginModal from "@/components/LoginModal";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Mine Beats",
@@ -23,6 +24,7 @@ export default function RootLayout({
         <UserProvider>
           <AuthModalProvider>
             <LoginModal />
+            <Toaster />
             <Sidebar>{children}</Sidebar>
           </AuthModalProvider>
         </UserProvider>

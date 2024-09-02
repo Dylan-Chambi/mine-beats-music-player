@@ -41,8 +41,10 @@ export const MediaItem = ({ data, onClick }: MediaItemProps) => {
         <Image src={data.album.cover_medium} alt={data.title} sizes="48px" fill />
       </div>
       <div className="flex flex-col gap-y-1 overflow-hidden">
-        <p className="font-semibold text-[0.7rem] truncate w-full">{data.title}</p>
-        <p className="text-neutral-400 pb-4 w-full truncate text-[0.6rem]">{data.artist.name}</p>
+        <p className="font-semibold text-[0.7rem] line-clamp-1 w-full">{data.title}</p>
+        <p className="text-neutral-400 pb-4 w-full line-clamp-1 text-[0.6rem]">
+          {data.artist.name}
+        </p>
       </div>
     </div>
   );
