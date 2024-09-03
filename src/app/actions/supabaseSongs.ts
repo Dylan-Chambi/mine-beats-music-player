@@ -3,7 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 export const getLikedSongs = async (): Promise<string[]> => {
   const supabase = createClient();
 
-  const userId = (await supabase.auth.getSession()).data.session?.user.id;
+  const userId = (await supabase.auth.getUser()).data.user?.id;
 
   if (!userId) {
     return [];

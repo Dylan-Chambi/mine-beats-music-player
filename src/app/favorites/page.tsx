@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import Image from "next/image";
 import FavContent from "./components/FavContent";
 
-export const revalidate = 3600;
+export const revalidate = 0;
 
 export default async function Favorites() {
   const songsIds = await getLikedSongs();
