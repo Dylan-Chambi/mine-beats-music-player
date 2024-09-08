@@ -38,6 +38,10 @@ export const LikeButton = ({ songId }: LikeButtonProps) => {
     };
 
     fetchData();
+
+    return () => {
+      setIsLiked(false);
+    };
   }, [songId, supabaseClient, user?.id]);
 
   const Icon = isLiked ? AiFillHeart : AiOutlineHeart;

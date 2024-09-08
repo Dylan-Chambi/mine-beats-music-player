@@ -23,7 +23,8 @@ export const MediaItem = ({ data, onClick }: MediaItemProps) => {
         items-center
         gap-x-3
         cursor-pointer
-        hover:bg-backgroundSidebar
+        hover:opacity-90
+        hover:bg-[#c2c2c220]
         w-full
         p-2
         rounded-md

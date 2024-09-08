@@ -2,12 +2,15 @@
 
 import { DeezerTracks } from "@/types/types";
 import SongItem from "./SongItem";
+import useOnPlay from "@/hooks/useOnPlay";
 
 interface PageContentProps {
   songs: DeezerTracks;
 }
 
 export default function PageContent({ songs }: PageContentProps) {
+  const onPlay = useOnPlay(songs.data);
+
   if (!songs || !songs.data || songs.data.length === 0) {
     return (
       <div className="mt-4 text-neutral-400">
@@ -32,7 +35,7 @@ export default function PageContent({ songs }: PageContentProps) {
         "
       >
         {songs.data.map((song) => (
-          <SongItem key={song.id} onClick={() => {}} data={song} />
+          <SongItem key={song.id} onClick={(id) => onPlay(id)} data={song} />
         ))}
       </div>
     </>

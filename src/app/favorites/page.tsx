@@ -4,18 +4,28 @@ import { getSongById } from "../actions/deezerSongs";
 import Header from "@/components/Header";
 import Image from "next/image";
 import FavContent from "./components/FavContent";
+import { redirect } from "next/navigation";
+import { useUserServer } from "@/hooks/useUserServer";
 
 export const revalidate = 0;
 
 export default async function Favorites() {
   const songsIds = await getLikedSongs();
 
-  const songs: Track[] = await Promise.all(
-    songsIds.map(async (id) => {
-      const song = await getSongById(id);
-      return song;
-    }),
-  );
+  const { user } = await useUserServer();
+
+  if (!user) {
+    redirect("/");
+  }
+
+  const songs: Track[] = (
+    await Promise.all(
+      songsIds.map(async (id) => {
+        const song = await getSongById(id);
+        return song;
+      }),
+    )
+  ).filter((song) => song !== null);
 
   return (
     <main className="h-full flex-1 overflow-y-auto">

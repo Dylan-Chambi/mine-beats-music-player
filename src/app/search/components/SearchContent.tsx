@@ -2,6 +2,7 @@
 
 import { LikeButton } from "@/components/LikeButton";
 import { MediaItem } from "@/components/MediaItem";
+import useOnPlay from "@/hooks/useOnPlay";
 import { DeezerTracks, Track } from "@/types/types";
 
 interface SearchContentProps {
@@ -9,6 +10,8 @@ interface SearchContentProps {
 }
 
 export const SearchContent = ({ deezerTracks }: SearchContentProps) => {
+  const onPlay = useOnPlay(deezerTracks.data);
+
   if (deezerTracks.data.length === 0) {
     return (
       <div
@@ -26,7 +29,7 @@ export const SearchContent = ({ deezerTracks }: SearchContentProps) => {
       {deezerTracks.data.map((track: Track) => (
         <div key={track.id} className="flex items-center gap-x-4 w-full">
           <div className="flex-1">
-            <MediaItem onClick={() => {}} data={track} />
+            <MediaItem onClick={(id) => onPlay(id)} data={track} />
           </div>
           <LikeButton songId={track.id} />
         </div>

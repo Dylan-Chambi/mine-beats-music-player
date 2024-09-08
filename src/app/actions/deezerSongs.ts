@@ -10,9 +10,9 @@ export const getSongs = async (): Promise<DeezerTracks> => {
   return await data.json();
 };
 
-export const getSongById = async (id: string): Promise<Track> => {
+export const getSongById = async (id: string): Promise<Track | null> => {
   const data = await fetch(`${DEZZER_API}/track/${id}`);
-  return await data.json();
+  return (await data.json()) ?? null;
 };
 
 export const getSongByTitle = async (title?: string): Promise<DeezerTracks> => {

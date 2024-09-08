@@ -2,6 +2,7 @@
 
 import { LikeButton } from "@/components/LikeButton";
 import { MediaItem } from "@/components/MediaItem";
+import useOnPlay from "@/hooks/useOnPlay";
 import { useUserClient } from "@/hooks/useUserClient";
 import { Track } from "@/types/types";
 import { useRouter } from "next/navigation";
@@ -12,16 +13,7 @@ interface LikedContentProps {
 }
 
 export default function FavContent({ songs }: LikedContentProps) {
-  const router = useRouter();
-
-  const { isLoading, user } = useUserClient();
-
-  useEffect(() => {
-    if (!isLoading && !user) {
-      router.replace("/");
-    }
-  }, [isLoading, user, router]);
-
+  const onPLay = useOnPlay(songs);
   if (songs.length === 0) {
     return (
       <div
@@ -40,7 +32,7 @@ export default function FavContent({ songs }: LikedContentProps) {
       {songs.map((track: Track) => (
         <div key={track.id} className="flex items-center gap-x-4 w-full">
           <div className="flex-1">
-            <MediaItem onClick={() => {}} data={track} />
+            <MediaItem onClick={(id) => onPLay(id)} data={track} />
           </div>
           <LikeButton songId={track.id} />
         </div>
