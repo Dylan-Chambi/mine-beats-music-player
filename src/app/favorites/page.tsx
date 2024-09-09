@@ -25,7 +25,7 @@ export default async function Favorites() {
         return song;
       }),
     )
-  ).filter((song) => song !== null);
+  ).filter((song) => song !== null) as Track[];
 
   return (
     <main className="h-full flex-1 overflow-y-auto">
