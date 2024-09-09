@@ -1,5 +1,11 @@
 import { create } from "zustand";
 
+export enum Repeat {
+  NONE = "none",
+  ONE = "one",
+  ALL = "all",
+}
+
 interface PlayerStore {
   ids: string[];
   activeId?: string;

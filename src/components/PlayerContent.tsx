@@ -6,9 +6,10 @@ import { LikeButton } from "@/components/LikeButton";
 import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
+import { LuRepeat, LuRepeat1 } from "react-icons/lu";
 import Slider from "@/components/Slider";
-import usePlayer from "@/hooks/usePlayer";
-import { useEffect, useState } from "react";
+import usePlayer, { Repeat } from "@/hooks/usePlayer";
+import { useCallback, useEffect, useRef, useState } from "react";
 import useSound from "use-sound";
 
 interface PlayerContentProps {
@@ -18,11 +19,14 @@ interface PlayerContentProps {
 export default function PlayerContent({ song }: PlayerContentProps) {
   const player = usePlayer();
   const [isPlaying, setIsPlaying] = useState(false);
+  const [repeat, setRepeat] = useState(Repeat.NONE);
+  const repeatRef = useRef(repeat);
 
   const Icon = isPlaying ? BsPauseFill : BsPlayFill;
   const VolumeIcon = player.volume === 0 ? HiSpeakerXMark : HiSpeakerWave;
+  const RepeatIcon = repeat === Repeat.ALL || repeat === Repeat.NONE ? LuRepeat : LuRepeat1;
 
-  const onPlayNext = () => {
+  const onPlayNext = useCallback(() => {
     if (player.ids.length === 0) return;
 
     const currentIndex = player.ids.findIndex((id) => id === player.activeId);
@@ -33,7 +37,11 @@ export default function PlayerContent({ song }: PlayerContentProps) {
     }
 
     player.setId(nextSong);
-  };
+  }, [player]);
+
+  useEffect(() => {
+    repeatRef.current = repeat;
+  }, [repeat]);
 
   const onPlayPrevious = () => {
     if (player.ids.length === 0) return;
@@ -53,11 +61,29 @@ export default function PlayerContent({ song }: PlayerContentProps) {
     onplay: () => setIsPlaying(true),
     onend: () => {
       setIsPlaying(false);
-      onPlayNext();
+      handleRepeatLogic();
     },
     onpause: () => setIsPlaying(false),
     format: "mp3",
+    interrupt: true,
   });
+
+  const handleRepeatLogic = useCallback(() => {
+    const currentRepeat = repeatRef.current;
+
+    if (currentRepeat === Repeat.NONE) {
+      const currentIndex = player.ids.findIndex((id) => id === player.activeId);
+      const nextSong = player.ids[currentIndex + 1];
+
+      if (!nextSong) {
+        return;
+      }
+
+      player.setId(nextSong);
+    } else if (currentRepeat === Repeat.ALL) {
+      onPlayNext();
+    }
+  }, [player, onPlayNext]);
 
   useEffect(() => {
     sound?.play();
@@ -66,6 +92,10 @@ export default function PlayerContent({ song }: PlayerContentProps) {
       sound?.stop();
     };
   }, [sound]);
+
+  useEffect(() => {
+    sound?.loop(repeat === Repeat.ONE);
+  }, [sound, repeat]);
 
   const handlePlay = () => {
     if (!isPlaying) {
@@ -78,10 +108,18 @@ export default function PlayerContent({ song }: PlayerContentProps) {
   const toggleMute = () => {
     if (player.volume === 0) {
       player.setVolume(player.prevVolume);
-      player.volume = player.prevVolume;
     } else {
       player.setVolume(0);
-      player.volume = 0;
+    }
+  };
+
+  const handleRepeatClick = () => {
+    if (repeat === Repeat.NONE) {
+      setRepeat(Repeat.ALL);
+    } else if (repeat === Repeat.ALL) {
+      setRepeat(Repeat.ONE);
+    } else {
+      setRepeat(Repeat.NONE);
     }
   };
 
@@ -114,6 +152,7 @@ export default function PlayerContent({ song }: PlayerContentProps) {
         md:gap-x-6
       "
       >
+        <RepeatIcon size={24} className="invisible" />
         <AiFillStepBackward
           onClick={onPlayPrevious}
           size={30}
@@ -153,6 +192,18 @@ export default function PlayerContent({ song }: PlayerContentProps) {
             md:block
           "
         />
+        <div onClick={() => handleRepeatClick()} className="cursor-pointer">
+          <RepeatIcon
+            size={24}
+            className={
+              repeat === Repeat.ALL
+                ? "text-secondary"
+                : repeat === Repeat.ONE
+                  ? "text-secondary"
+                  : "text-neutral-400"
+            }
+          />
+        </div>
       </div>
 
       <div className="flex w-full justify-end pr-2">
