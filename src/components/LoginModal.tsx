@@ -25,7 +25,6 @@ export default function LoginModal() {
     <div
       id="default-modal"
       tabIndex={-1}
-      aria-hidden="true"
       className="
         fixed
         inset-0
@@ -71,14 +70,14 @@ export default function LoginModal() {
               <span className="sr-only">Close modal</span>
             </button>
           </div>
-          <form className="flex flex-col p-4 md:p-5 space-y-4 items-center" action={handleSignIn}>
+          <div className="flex flex-col p-4 md:p-5 space-y-4 items-center">
             <h2 className="text-xl font-semibold text-onBackground mb-5">Log In</h2>
             <div className="flex flex-col w-80 space-y-4">
-              <button
-                type="submit"
-                disabled={pending}
-                onClick={() => setProvider("google")}
-                className="
+              <form className="flex flex-col w-full space-y-4" action={handleSignIn}>
+                <button
+                  disabled={pending}
+                  onClick={() => setProvider("google")}
+                  className="
                   flex
                   items-center
                   justify-center
@@ -95,15 +94,14 @@ export default function LoginModal() {
                   focus:ring-2
                   focus:ring-neutral-200
                 "
-              >
-                <FcGoogle className="w-6 h-6 me-2" />
-                Continue with Google
-              </button>
-              <button
-                type="submit"
-                disabled={pending}
-                onClick={() => setProvider("github")}
-                className="
+                >
+                  <FcGoogle className="w-6 h-6 me-2" />
+                  Continue with Google
+                </button>
+                <button
+                  disabled={pending}
+                  onClick={() => setProvider("github")}
+                  className="
                   flex
                   items-center
                   justify-center
@@ -120,10 +118,11 @@ export default function LoginModal() {
                   focus:ring-2
                   focus:ring-black
                 "
-              >
-                <FaGithub className="w-6 h-6 me-2" />
-                Continue with Github
-              </button>
+                >
+                  <FaGithub className="w-6 h-6 me-2" />
+                  Continue with Github
+                </button>
+              </form>
 
               <div className="flex items-center justify-center w-full py-5">
                 <div className="w-full h-0.5 bg-neutral-500"></div>
@@ -133,14 +132,16 @@ export default function LoginModal() {
 
               <div className="flex items-center justify-center w-full">
                 <p className=" text-[0.7rem] text-neutral-300 text-center">
-                  {"Log in with email and password"}
+                  Log in with email and password
                 </p>
               </div>
-              <div className="flex flex-col w-full space-y-2 pb-5">
+
+              <form className="flex flex-col w-full space-y-4 py-5" action={handleSignIn}>
                 <input
                   name="email"
                   type="text"
                   placeholder="Email"
+                  disabled
                   className="
                     w-full
                     px-3
@@ -153,12 +154,14 @@ export default function LoginModal() {
                     focus:outline-none
                     focus:ring-2
                     focus:ring-neutral-200
+                    disabled:opacity-50
                   "
                 />
                 <input
                   name="password"
                   type="password"
                   placeholder="Password"
+                  disabled
                   className="
                     w-full
                     px-3
@@ -171,21 +174,22 @@ export default function LoginModal() {
                     focus:outline-none
                     focus:ring-2
                     focus:ring-neutral-200
+                    disabled:opacity-50
                   "
                 />
-              </div>
 
-              <button
-                type="submit"
-                disabled={pending}
-                onClick={() => setProvider("email")}
-                className="
+                <button
+                  type="submit"
+                  disabled={pending || true}
+                  onClick={() => setProvider("email")}
+                  className="
                   flex
                   items-center
                   justify-center
                   w-full
                   py-2.5
                   px-5
+                  !mt-8
                   rounded-lg
                   text-xs
                   font-medium
@@ -195,12 +199,14 @@ export default function LoginModal() {
                   focus:outline-none
                   focus:ring-2
                   focus:ring-primary
+                  disabled:opacity-50
                 "
-              >
-                Log In
-              </button>
+                >
+                  Log In
+                </button>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
