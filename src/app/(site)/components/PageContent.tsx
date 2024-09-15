@@ -3,12 +3,26 @@
 import { DeezerTracks } from "@/types/types";
 import SongItem from "./SongItem";
 import useOnPlay from "@/hooks/useOnPlay";
+import { useSearchParams } from "next/navigation";
+import { useAuthModal } from "@/app/providers/AuthModalProvider";
+import { useEffect, useState } from "react";
 
 interface PageContentProps {
   songs: DeezerTracks;
 }
 
 export default function PageContent({ songs }: PageContentProps) {
+  const searchParams = useSearchParams();
+  const { openAuthModal } = useAuthModal();
+  const [showAuthModal, setShowAuthModal] = useState(searchParams.get("auth_modal") === "true");
+
+  useEffect(() => {
+    if (showAuthModal) {
+      openAuthModal();
+      setShowAuthModal(false);
+    }
+  }, [showAuthModal, openAuthModal]);
+
   const onPlay = useOnPlay(songs.data);
 
   if (!songs || !songs.data || songs.data.length === 0) {

@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 
 export async function signInWithProvider(
   provider: "google" | "github" | "email",
-  formData: FormData
+  formData: FormData,
 ) {
   if (provider !== "email") {
     const supabase = createClient();
@@ -26,15 +26,14 @@ export async function signInWithProvider(
       return redirect(res.data.url);
     }
   }
-};
+}
 
 export async function signOut() {
   const supabase = createClient();
-  
+
   const { error } = await supabase.auth.signOut();
   if (error) {
     console.log(error);
   }
-  revalidatePath('/', 'layout');
-};
-
+  revalidatePath("/", "layout");
+}

@@ -113,6 +113,9 @@ export default function UserSection({ user }: UserSectionProps) {
           <div className="pb-2" role="none">
             <Link
               href="/profile"
+              onClick={(e) => {
+                e.preventDefault();
+              }}
               className="
                 inline-flex
                 items-center
@@ -120,14 +123,13 @@ export default function UserSection({ user }: UserSectionProps) {
                 px-4
                 py-2
                 gap-x-4
+                pointer-events-none
                 text-onBackground
-                hover:bg-primary
-                hover:text-background
               "
               role="menuitem"
             >
-              <IoPerson size={20} className="text-onBackground" />
-              <span className="text-xs text-onBackground">Profile</span>
+              <IoPerson size={20} className="text-gray-500" />
+              <span className="text-xs text-gray-500">Profile</span>
             </Link>
             <hr className="border-t border-gray-700 my-2" />
             <form action={signOut} role="none">

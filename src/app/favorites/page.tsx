@@ -15,7 +15,7 @@ export default async function Favorites() {
   const { user } = await useUserServer();
 
   if (!user) {
-    redirect("/");
+    redirect("/?auth_modal=true");
   }
 
   const songs: Track[] = (
