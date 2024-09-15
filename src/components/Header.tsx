@@ -17,12 +17,12 @@ export default async function Header({ children, className }: HeaderProps) {
     <header
       className={twMerge(
         `
-      h-fit
-      bg-background
-      p-2
-      md:p-6
-    `,
-        className
+          h-fit
+          bg-background
+          p-2
+          md:p-6
+        `,
+        className,
       )}
     >
       <div className="w-full mb-4 flex items-center justify-between">
@@ -38,7 +38,15 @@ export default async function Header({ children, className }: HeaderProps) {
               priority
             />
           </div>
-          <h1 className="text-sm font-bold text-primary">Mine Beats</h1>
+          <div className="flex flex-col">
+            <h1 className="text-sm font-bold text-primary">Mine Beats</h1>
+            <p className="text-xs text-onBackground">
+              by{" "}
+              <a href="https://github.com/Dylan-Chambi" className="text-secondary">
+                Dylan Chambi
+              </a>
+            </p>
+          </div>
         </div>
         <div className="flex justify-between items-center md:gap-x-4 gap-x-1">
           {user ? <UserSection user={user} /> : <AuthButtons />}

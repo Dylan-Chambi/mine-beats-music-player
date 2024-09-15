@@ -83,7 +83,15 @@ export default function Sidebar({ children }: SidebarProps) {
               priority
             />
           </div>
-          <h1 className="text-xl font-bold text-primary mr-5">Mine Beats</h1>
+          <div className="flex flex-col">
+            <h1 className="text-xl font-bold text-primary mr-5">Mine Beats</h1>
+            <p className="text-xs text-onBackground">
+              by{" "}
+              <a href="https://github.com/Dylan-Chambi" className="text-secondary">
+                Dylan Chambi
+              </a>
+            </p>
+          </div>
         </div>
         <div className="flex flex-col gap-y-4 pl-5 py-4 my-10">
           {routes.map((route) => (
