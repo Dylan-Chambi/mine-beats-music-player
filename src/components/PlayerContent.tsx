@@ -65,7 +65,6 @@ export default function PlayerContent({ song }: PlayerContentProps) {
     },
     onpause: () => setIsPlaying(false),
     format: "mp3",
-    interrupt: true,
   });
 
   const handleRepeatLogic = useCallback(() => {
